@@ -1,7 +1,10 @@
+CC=cc
 LIBS=-lm
-CFLAGS=-Wall -Wpedantic -DDEBUG
+CFLAGS=-Wall -Wpedantic
+OBJS=besselton.o astro.o
 
-besselton: besselton.o
-	cc besselton.o $(LIBS) $(CFLAGS) -o besselton
+.PHONY: clean
+besselton: $(OBJS)
+	$(CC) $(OBJS) $(LIBS) $(CFLAGS) -o besselton
 clean:
-	rm -f besselton besselton.o
+	rm -f besselton $(OBJS)
