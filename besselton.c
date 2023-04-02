@@ -21,7 +21,8 @@ void usage() {
            "    -v, --version         print the program version\n"
            "    -p, --latitude        specify the latitude\n"
            "    -l, --longitude       specity the longitude\n"
-           "If latitude or longitude is not specified, they are set to zero.\n");
+           "    -t, --time            specity the time\n"
+           "If latitude, longitude or time is not specified, they are set to zero.\n");
     exit(0);
 }
 
@@ -35,21 +36,22 @@ static struct option const long_options[] = {
     {"help", no_argument, NULL, 'h'},
     {"latitude", required_argument, NULL, 'p'},
     {"longitude", required_argument, NULL, 'l'},
+    {"time", required_argument, NULL, 't'},
+    /* you must specify this last one otherwise you will get a segfault. */
+    {NULL, 0, 0, 0},
 };
 
 int main(int argc, char **argv) {
-#ifdef DEBUG
-    eprintf("Using arguments:\n");
-    for(int i = 0; i < argc; i++)
-        eprintf("%s\n", argv[i]);
-#endif
     invoked_name = argv[0];
+    /* for getopt_long */
     int oi, c;
     double latitude = 0;
     double longitude = 0;
+    double T = 0;
+    /* parse command line arguments */
     while(1) {
         oi = -1;
-        c = getopt_long(argc, argv, "hvl:p:", long_options, &oi);
+        c = getopt_long(argc, argv, "hvl:p:t:", long_options, &oi);
         if(c == -1)
             break;
         switch(c) {
@@ -62,21 +64,37 @@ int main(int argc, char **argv) {
             case 'p':
                 latitude = atof(optarg);
                 if(!latitude) {
-                    eprintf("Please specify a valid latitude value!\n");
+                    LOG("Please specify a valid latitude value!\n");
                     exit(-1);
                 }
-                eprintf("Using %f as latitude...\n", latitude);
                 break;
             case 'l':
                 longitude = atof(optarg);
                 if(!longitude) {
-                    eprintf("Please specify a valid latitude value!\n");
+                    LOG("Please specify a valid longitude value!\n");
                     exit(-1);
                 }
-                eprintf("Using %f as longitude...\n", longitude);
+                break;
+            case 't':
+                T = atof(optarg);
+                if(!T) {
+                    LOG("Please specify a valid time value!\n");
+                    exit(-1);
+                }
                 break;
             default:
+                exit(0);
                 break;
         }
     }
+    struct besselian_elements test = {{0.6931820, 0.4646490, -0.0000101, -0.0000055},
+                                      {-0.9222000,0.2285195,-0.0000259,-0.0000029},
+                                      {11.4196396,0.0137730,-0.0000030,0},
+                                      {0.5626270,0.0000781,-0.0000102,0},
+                                      {0.0164080,0.0000777,-0.0000102,0},
+                                      {30.247351,15.003350,0,0}};
+    /* LOG("latitude: %f, longitude: %f, time: %f\n", latitude, longitude, T); */
+    struct computed_be cbe = calculate_elements(&test, T);
+    print_elements(&cbe, T);
+    return 0;
 }
