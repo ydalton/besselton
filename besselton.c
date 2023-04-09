@@ -87,14 +87,15 @@ int main(int argc, char **argv) {
                 break;
         }
     }
+    /* eclipse for april 19th 2004 */
     struct besselian_elements test = {{0.6931820, 0.4646490, -0.0000101, -0.0000055},
                                       {-0.9222000,0.2285195,-0.0000259,-0.0000029},
                                       {11.4196396,0.0137730,-0.0000030,0},
                                       {0.5626270,0.0000781,-0.0000102,0},
                                       {0.0164080,0.0000777,-0.0000102,0},
                                       {30.247351,15.003350,0,0}};
-    /* LOG("latitude: %f, longitude: %f, time: %f\n", latitude, longitude, T); */
     struct computed_be cbe = calculate_elements(&test, T);
+    printf("p = %f\nl = %f\nT = %f\n\n", latitude, longitude, T);
     print_elements(&cbe, T);
     return 0;
 }

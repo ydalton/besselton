@@ -27,7 +27,6 @@ struct computed_be calculate_elements(struct besselian_elements *be, double T) {
 }
 
 void print_elements(struct computed_be *cbe, double T) {
-    printf("T = %f\n", T);
     for(int i = 0; i < NUMBER_OF_ELEMENTS; i++)
         printf("%s\t\t", element_names[i]);
     putchar('\n');

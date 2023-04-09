@@ -6,5 +6,7 @@ OBJS=besselton.o astro.o
 .PHONY: clean
 besselton: $(OBJS)
 	$(CC) $(OBJS) $(LIBS) $(CFLAGS) -o besselton
+%.o: %.c
+	$(CC) $(CFLAGS) $< -c
 clean:
 	rm -f besselton $(OBJS)
