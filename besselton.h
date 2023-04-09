@@ -1,6 +1,8 @@
 #ifndef BESSELTON_H_
 #define BESSELTON_H_
 
+#include <stdint.h>
+
 #define PROGRAM_NAME "besselton"
 #define PROGRAM_VERSION "0.01"
 
@@ -24,8 +26,21 @@ struct computed_be {
     float x, y, d, l1, l2, m;
 };
 
+#define TOTAL (1<<1)
+#define ANNULAR (1<<2)
+#define SAROS_BIT (1<<2)
+
+struct eclipse {
+    char type;
+    uint16_t saros_cycle_number;
+    uint8_t saros_member_number;
+    struct besselian_elements elements;
+    float delta;
+    double tan_f1, tan_f2;
+};
+
 /* function prototypes */
-void print_elements(struct computed_be *cbe, double T);
 struct computed_be calculate_elements(struct besselian_elements *be, double T);
+void print_elements(struct besselian_elements *be, double T, double increment, unsigned int n);
 
 #endif

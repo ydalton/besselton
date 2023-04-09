@@ -94,8 +94,8 @@ int main(int argc, char **argv) {
                                       {0.5626270,0.0000781,-0.0000102,0},
                                       {0.0164080,0.0000777,-0.0000102,0},
                                       {30.247351,15.003350,0,0}};
-    struct computed_be cbe = calculate_elements(&test, T);
     printf("p = %f\nl = %f\nT = %f\n\n", latitude, longitude, T);
-    print_elements(&cbe, T);
+    printf("for the eclipse of 19th april 2004...\n");
+    print_elements(&test, T, 0.125, 15);
     return 0;
 }
