@@ -3,7 +3,7 @@ LIBS=-lm
 CFLAGS=-Wall -Wpedantic
 OBJS=besselton.o astro.o
 
-.PHONY: clean
+.PHONY: clean besselton
 besselton: $(OBJS)
 	$(CC) $(OBJS) $(LIBS) $(CFLAGS) -o besselton
 %.o: %.c
