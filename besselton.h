@@ -28,7 +28,9 @@ struct computed_be {
 
 #define TOTAL (1<<1)
 #define ANNULAR (1<<2)
-#define SAROS_BIT (1<<2)
+#define HYBRID (TOTAL | ANNULAR) /* hybrid eclipses are a bit of both i guess */
+#define PARTIAL (TOTAL & ANNULAR)
+#define SAROS_BIT (1<<3)
 
 struct eclipse {
     char type;
